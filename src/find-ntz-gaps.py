@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 # @author dimxy, Komodo
+# find-ntz-gap - finds blocks not included in any notarisation MoM
+# installation:
+# you'll need slickrpc py lib to run this
+# usage:
+# python3 find-ntz-gap.py <path-to-node-config>
 
 from lib import rpclib, tuilib
 import os
@@ -9,9 +14,9 @@ import argparse
 from slickrpc.exc import RpcException
 import configparser
 
-# test assets impl with mustpay... evals
 
 
+# create localhost rpc connection to a chain node by reading config file
 def get_chain_rpc(config) :
 
     rpc = None
@@ -37,7 +42,7 @@ def get_chain_rpc(config) :
     return rpc
 
 
-
+# finds gaps
 def run_find_ntz_gaps(config) :
 
     rpc = get_chain_rpc(config)
@@ -57,7 +62,7 @@ def run_find_ntz_gaps(config) :
       # print('ntz_data', ntz_data )
       if ntz_data.get('error') is not None :
         ht = ht + 1
-        print('adding ht=ht+1, continue')
+        # print('adding ht=ht+1, continue')
         continue
 
       if ntz_data.get('notarized_height') is None :
@@ -73,8 +78,8 @@ def run_find_ntz_gaps(config) :
       depth = int(ntz_data['depth'])
       
       if ntz_last > 0 :
-        if ntz_ht - depth > ntz_last :
-          print('found gap:', ntz_last, ntz_ht - depth + 1)
+        if ntz_ht - depth > ntz_last :   # actually current 'notarised height' minus 'depth' must point to the 'last notarised height'
+          print('found gap:', ntz_last, ntz_ht - depth)
 
       ntz_last = ntz_ht
       ht = ntz_ht + 1
