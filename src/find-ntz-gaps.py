@@ -79,7 +79,7 @@ def run_find_ntz_gaps(config) :
       
       if ntz_last > 0 :
         if ntz_ht - depth > ntz_last :   # actually current 'notarised height' minus 'depth' must point to the 'last notarised height'
-          print('found gap:', ntz_last, ntz_ht - depth)
+          print('found gap:', ntz_last+1, ntz_ht - depth)
 
       ntz_last = ntz_ht
       ht = ntz_ht + 1
