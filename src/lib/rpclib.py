@@ -12,6 +12,14 @@ def rpc_connect(rpc_user, rpc_password, port):
         raise Exception("Connection error! Probably no daemon on selected port.")
     return rpc_connection
 
+# RPC connection
+def rpc_connect_conf(conf):
+    try:
+        rpc_connection = Proxy(None, None, conf)
+    except Exception:
+        raise Exception("Connection error! Probably no daemon on selected port.")
+    return rpc_connection
+
 
 # Non CC calls
 def getinfo(rpc_connection):
